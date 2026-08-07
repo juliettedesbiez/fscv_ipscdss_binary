@@ -1,6 +1,6 @@
 """
 FSCV Window Generator — iPSC (BINARY)
-Usage: python make_windows_ipsc_binary.py [--config fscv_config.yaml]
+Usage: python make_windows_ipsc_binary.py [--config fscv_config_ipsc.yaml]
 
 Classes: 0=baseline, 1=serotonin
 
@@ -20,7 +20,7 @@ PLOT_DIR   = r"C:\Users\julie\OneDrive - Imperial College London\data for binary
 LABELS_CSV = r"C:\Users\julie\OneDrive - Imperial College London\binary output\FSCV_Labels_Nov.csv"
 WINDOW_DIR = r"C:\Users\julie\OneDrive - Imperial College London\binary output\window_arrays"
 
-def load_config(path="fscv_config.yaml"):
+def load_config(path="fscv_config_ipsc.yaml"):
     with open(path, 'r') as f:
         return yaml.safe_load(f)
 
@@ -63,7 +63,7 @@ def process_file(arr, fname, file_id, group_id, file_labels, meta_rows,
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', default='fscv_config.yaml')
+    parser.add_argument('--config', default='fscv_config_ipsc.yaml')
     args = parser.parse_args()
 
     cfg = load_config(args.config)
