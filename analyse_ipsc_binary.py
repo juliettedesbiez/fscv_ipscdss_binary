@@ -36,7 +36,7 @@ from extract_features_ipsc_binary import extract, load_config
 
 warnings.filterwarnings('ignore')
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
 
 os.makedirs(rf"{BASE}\figures_ipsc_binary_17", exist_ok=True)
 
