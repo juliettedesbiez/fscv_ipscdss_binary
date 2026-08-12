@@ -27,7 +27,7 @@ import yaml
 from scipy.stats import skew, kurtosis
 from utils_ipsc_binary import RANDOM_STATE
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
 
 
 def load_config(path="fscv_config_ipsc.yaml"):
