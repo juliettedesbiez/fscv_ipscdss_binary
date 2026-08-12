@@ -8,7 +8,7 @@ from sklearn.metrics import roc_auc_score
 RANDOM_STATE = 42
 CLASS_NAMES  = ['Baseline', 'Serotonin']
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
 
 def load_features():
     """Load engineered features from features_ipsc_binary.csv."""
