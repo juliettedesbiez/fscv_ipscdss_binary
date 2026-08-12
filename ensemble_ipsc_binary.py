@@ -16,7 +16,7 @@ from sklearn.metrics import (f1_score, confusion_matrix,
 
 CLASS_NAMES = ['Baseline', 'Serotonin']
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
 
 def compute_binary_metrics(y_true, y_proba):
     """Compute metrics for binary soft-voting output."""
@@ -99,3 +99,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+  
