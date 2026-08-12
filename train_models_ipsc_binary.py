@@ -24,7 +24,7 @@ from utils_ipsc_binary import load_features, load_raw_for_features, compute_metr
 
 import yaml
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
 
 with open("fscv_config_ipsc.yaml") as f:
     _cfg = yaml.safe_load(f)
