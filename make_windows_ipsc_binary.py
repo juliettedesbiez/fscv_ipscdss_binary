@@ -16,11 +16,11 @@ import pandas as pd
 import yaml
 
 # Paths - iPSC binary specific
-PLOT_DIR   = r"C:\Users\julie\OneDrive - Imperial College London\data for binary annotations"   # <-- confirm exact folder name
+PLOT_DIR   = r"C:\Users\julie\OneDrive - Imperial College London\data for 3 class annotations"  # <-- confirm exact folder name
 LABELS_CSV = r"C:\Users\julie\OneDrive - Imperial College London\binary output\FSCV_Labels_Nov.csv"
 
 # BASE covers everything this script writes — window_arrays/ and windows_metadata.csv both live under it
-BASE       = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
+BASE       = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
 WINDOW_DIR = rf"{BASE}\window_arrays"
 
 def load_config(path="fscv_config_ipsc.yaml"):
