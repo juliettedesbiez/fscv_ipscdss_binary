@@ -4,10 +4,6 @@ Usage: python make_windows_ipsc_binary.py [--config fscv_config_ipsc.yaml]
 
 Classes: 0=baseline, 1=serotonin
 
-Same windowing logic as make_windows.py (3-class) — the underlying code
-doesn't care how many classes exist upstream, it just processes whatever
-label values are present in the CSV. Only the paths, class count, and
-docstrings differ here.
 """
 
 import os, argparse
@@ -16,11 +12,11 @@ import pandas as pd
 import yaml
 
 # Paths - iPSC binary specific
-PLOT_DIR   = r"C:\Users\julie\OneDrive - Imperial College London\data for 3 class annotations"  # <-- confirm exact folder name
-LABELS_CSV = r"C:\Users\julie\OneDrive - Imperial College London\binary output\FSCV_Labels_Nov.csv"
+PLOT_DIR   = r"C:\Users\julie\OneDrive - Imperial College London\data for 3 class annotations" 
+LABELS_CSV = r"C:\Users\julie\OneDrive - Imperial College London\binary output\FSCV_Labels.csv"
 
 # BASE covers everything this script writes — window_arrays/ and windows_metadata.csv both live under it
-BASE       = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
+BASE       = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
 WINDOW_DIR = rf"{BASE}\window_arrays"
 
 def load_config(path="fscv_config_ipsc.yaml"):
