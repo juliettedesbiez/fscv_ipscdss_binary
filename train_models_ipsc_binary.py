@@ -89,7 +89,7 @@ def train_xgb(X, y, groups):
     y_true_all, y_proba_all = [], []
 
     # Per-class sample weights — same manual approach as Phase 2/organoid (kept for
-    # consistency with your established methodology, rather than switching to scale_pos_weight)
+    # consistency with established methodology, rather than switching to scale_pos_weight)
     class_counts = np.bincount(y)
     sample_weight = np.array([1.0 / class_counts[c] for c in y])
     sample_weight = sample_weight / sample_weight.mean()
