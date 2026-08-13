@@ -2,9 +2,8 @@
 analyse.py
 Analysis and figure generation for iPSC BINARY classifier, organoid-pipeline test.
 
-RF, XGB, and MLP all come from the single 17-feature run (models_ipsc_binary_17/,
-features_ipsc_binary.csv, windows_metadata_test_ipsc_binary.csv) — unlike the
-organoid version, there's no separate legacy 12-feature MLP run to pull from here.
+RF, XGB, and MLP all come from the single 17-feature run (models_ipsc_binary/,
+features_ipsc_binary.csv, windows_metadata_test_ipsc_binary.csv). 
 
 Generates (all under {BASE}\\figures_ipsc_binary_17):
   roc_curves_test.jpg
@@ -36,9 +35,9 @@ from extract_features_ipsc_binary import extract, load_config
 
 warnings.filterwarnings('ignore')
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
 
-os.makedirs(rf"{BASE}\figures_ipsc_binary_17", exist_ok=True)
+os.makedirs(rf"{BASE}\figures_ipsc_binary", exist_ok=True)
 
 CLASS_NAMES  = ['Baseline', 'Serotonin']
 COLORS       = {'RF': '#1f77b4', 'XGB': '#ff7f0e', 'MLP': '#2ca02c', 'Ensemble': '#d62728'}
@@ -92,9 +91,9 @@ X_raw = np.array([np.load(rf"{BASE}\window_arrays\{wid}.npy").flatten()
 print("Loading models...")
 
 # RF, XGB, and MLP all come from the same 17-feature run
-rf_data  = pickle.load(open(rf"{BASE}\models_ipsc_binary_17\rf_model.pkl",  'rb'))
-xgb_data = pickle.load(open(rf"{BASE}\models_ipsc_binary_17\xgb_model.pkl", 'rb'))
-mlp_data = pickle.load(open(rf"{BASE}\models_ipsc_binary_17\mlp_model.pkl", 'rb'))
+rf_data  = pickle.load(open(rf"{BASE}\models_ipsc_binary\rf_model.pkl",  'rb'))
+xgb_data = pickle.load(open(rf"{BASE}\models_ipsc_binary\xgb_model.pkl", 'rb'))
+mlp_data = pickle.load(open(rf"{BASE}\models_ipsc_binary\mlp_model.pkl", 'rb'))
 
 rf_proba  = rf_data['model'].predict_proba(X_feat)        # (n, 2)
 xgb_proba = xgb_data['model'].predict_proba(X_feat)       # (n, 2)
@@ -141,7 +140,7 @@ for ax, (name, proba) in zip(axes, probas.items()):
     ax.grid(alpha=0.3)
 plt.suptitle('ROC Curves — Test Set', fontsize=13, fontweight='bold')
 plt.tight_layout()
-plt.savefig(rf"{BASE}\figures_ipsc_binary_17\roc_curves_test.jpg", dpi=200, bbox_inches='tight')
+plt.savefig(rf"{BASE}\figures_ipsc_binary\roc_curves_test.jpg", dpi=200, bbox_inches='tight')
 plt.close()
 print("  ✓ roc_curves_test.jpg")
 
@@ -162,7 +161,7 @@ for ax, (name, proba) in zip(axes, probas.items()):
     ax.grid(alpha=0.3)
 plt.suptitle('Precision-Recall Curves — Test Set', fontsize=13, fontweight='bold')
 plt.tight_layout()
-plt.savefig(rf"{BASE}\figures_ipsc_binary_17\pr_curves_test.jpg", dpi=200, bbox_inches='tight')
+plt.savefig(rf"{BASE}\figures_ipsc_binary\pr_curves_test.jpg", dpi=200, bbox_inches='tight')
 plt.close()
 print("  ✓ pr_curves_test.jpg")
 
@@ -179,7 +178,7 @@ for idx, (name, proba) in enumerate(probas.items()):
     axes.flat[idx].tick_params(axis='x', rotation=30)
 plt.suptitle('Confusion Matrices — Test Set', fontsize=14, fontweight='bold')
 plt.tight_layout()
-plt.savefig(rf"{BASE}\figures_ipsc_binary_17\confusion_matrices_test.jpg", dpi=200, bbox_inches='tight')
+plt.savefig(rf"{BASE}\figures_ipsc_binary\confusion_matrices_test.jpg", dpi=200, bbox_inches='tight')
 plt.close()
 print("  ✓ confusion_matrices_test.jpg")
 
@@ -211,7 +210,7 @@ for row, label, color in [
 
 ax.set_title('MLP Gradient Saliency Map — Input Importance', fontsize=14, fontweight='bold')
 plt.tight_layout()
-plt.savefig(rf"{BASE}\figures_ipsc_binary_17\mlp_saliency.jpg", dpi=200, bbox_inches='tight')
+plt.savefig(rf"{BASE}\figures_ipsc_binary\mlp_saliency.jpg", dpi=200, bbox_inches='tight')
 plt.close()
 print("  ✓ mlp_saliency.jpg")
 
@@ -231,7 +230,7 @@ ax.set_xlabel('Normalised Permutation Importance (max=1)', fontsize=12)
 ax.set_title('Random Forest — Permutation Feature Importance (17 features)', fontsize=13, fontweight='bold')
 ax.grid(axis='x', alpha=0.3)
 plt.tight_layout()
-plt.savefig(rf"{BASE}\figures_ipsc_binary_17\feature_importance_rf.jpg", dpi=200, bbox_inches='tight')
+plt.savefig(rf"{BASE}\figures_ipsc_binary\feature_importance_rf.jpg", dpi=200, bbox_inches='tight')
 plt.close()
 print("  ✓ feature_importance_rf.jpg")
 
@@ -257,8 +256,8 @@ ax.set_xlabel('Mean |SHAP| (normalised)', fontsize=12)
 ax.set_title('XGBoost — SHAP Feature Importance (Binary, 17 features)', fontsize=13, fontweight='bold')
 ax.grid(axis='x', alpha=0.3)
 plt.tight_layout()
-plt.savefig(rf"{BASE}\figures_ipsc_binary_17\feature_importance_xgb.jpg", dpi=200, bbox_inches='tight')
+plt.savefig(rf"{BASE}\figures_ipsc_binary\feature_importance_xgb.jpg", dpi=200, bbox_inches='tight')
 plt.close()
 print("  ✓ feature_importance_xgb.jpg")
 
-print(rf"\n✓ ANALYSIS COMPLETE — 6 figures saved to {BASE}\figures_ipsc_binary_17")
+print(rf"\n✓ ANALYSIS COMPLETE — 6 figures saved to {BASE}\figures_ipsc_binary")
