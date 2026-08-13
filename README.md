@@ -39,15 +39,15 @@ are hardcoded at the top of each file.
 
 ### `make_windows_ipsc_binary.py`
 ```python
-PLOT_DIR   = r"...\data for binary annotations"   # folder of raw recording files
-LABELS_CSV = r"...\binary output\FSCV_Labels_Nov.csv"   # your annotation CSV
-BASE       = r"...\binary output"   # covers window_arrays/ and windows_metadata.csv
+PLOT_DIR   = r"...\data for binary annotations"   # folder of raw recording files — confirm this still points to the right raw data
+LABELS_CSV = r"...\binary output\FSCV_Labels_Nov.csv"   # your annotation CSV — confirm this still points to the right raw data
+BASE       = r"...\binary output retrain"   # covers window_arrays/ and windows_metadata.csv
 ```
 
 ### `extract_features_ipsc_binary.py`, `utils_ipsc_binary.py`, `train_models_ipsc_binary.py`, `test_models_ipsc_binary.py`, `ensemble_ipsc_binary.py`, `analyse_ipsc_binary.py`
 Each has a `BASE` constant near the top:
 ```python
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
 ```
 **This must be identical across all seven files (including `make_windows_ipsc_binary.py`)** — each script writes into `BASE\...` and the next one reads from `BASE\...`.
 
@@ -87,7 +87,7 @@ interactive prompt asking which model(s) to run.
 ## 4. Outputs you'll end up with (inside `BASE`)
 
 ```
-binary output/
+binary output retrain/
 ├── window_arrays/                          (step 1)
 ├── windows_metadata.csv                    (step 1 — all windows)
 ├── features_ipsc_binary.csv                (step 2 — train features, 17 cols + label/group/window_id)
