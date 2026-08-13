@@ -4,7 +4,7 @@ This README explains how to run the iPSC binary FSCV classification
 pipeline end to end: from raw recordings + labels, to a trained RF+XGB+MLP
 ensemble, to a held-out test evaluation, to interpretability figures.
 
-17-feature pipeline (12 original + rise_time, decay_time, ox_red_ratio,
+17-feature pipeline (12 predecessor features + rise_time, decay_time, ox_red_ratio,
 rise_slope, ox_red_lag) — same feature set as the organoid binary pipeline,
 run here on iPSC data.
 
