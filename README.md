@@ -1,4 +1,4 @@
-# iPSC Binary Classification Pipeline (Baseline / Serotonin)
+# iPSC Binary Classification Pipeline (No Event / Event)
 
 This README explains how to run the iPSC binary FSCV classification
 pipeline end to end: from raw recordings + labels, to a trained RF+XGB+MLP
@@ -8,7 +8,7 @@ ensemble, to a held-out test evaluation, to interpretability figures.
 rise_slope, ox_red_lag) — same feature set as the organoid binary pipeline,
 run here on iPSC data.
 
-Classes: `0 = baseline`, `1 = serotonin`
+Classes: `0 = No Event (baseline)`, `1 = Event (serotonin)`
 
 ---
 
