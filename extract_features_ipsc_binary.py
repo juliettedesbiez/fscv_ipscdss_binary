@@ -1,19 +1,7 @@
 """
 Extract features (12 original + rise_time, decay_time [fixed], ox_red_ratio
 [fixed], rise_slope, ox_red_lag = 17 features) then create balanced 70:30
-train/test split (group-aware, no data leakage) — iPSC (BINARY), run through
-the organoid-pipeline feature set to test generalisation across preparations.
-
-decay_time and ox_red_ratio use the FIXED formulas from the 3-class 28-feature
-round (extract_features_3class_28.py) — the earlier 15-feature versions of
-these two were flagged as unstable (decay_time collapses near-zero for real
-events; ox_red_ratio has extreme outliers) and are NOT used here.
-
-ox_red_lag is the key addition: it directly encodes the gap between the
-oxidation peak and the reduction trough, i.e. the paired oxidation/reduction
-relationship the interpretability gate is checking for. Previously,
-trough_current was (incorrectly) computed from the oxidation slice — RF/XGB
-had no reduction-band-specific feature at all. Fixed here.
+train/test split (group-aware, no data leakage)
 
 Usage: python extract_features.py [--config fscv_config_ipsc.yaml]
 
@@ -27,7 +15,7 @@ import yaml
 from scipy.stats import skew, kurtosis
 from utils_ipsc_binary import RANDOM_STATE
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
 
 
 def load_config(path="fscv_config_ipsc.yaml"):
