@@ -1,13 +1,10 @@
 """
-Train RF, XGBoost, and MLP — iPSC BINARY classifier, organoid-pipeline test.
+Train RF, XGBoost, and MLP — iPSC BINARY classifier
 Classes: 0=baseline, 1=serotonin
 
 Architecture/training loop ported from Phase 2's tuned MLP config
 (lr=1e-4, ReduceLROnPlateau, 100 epochs, patience=15, class weight x3 on
-minority class, stacked with WeightedRandomSampler) — the v7 config
-confirmed as the winning arm of your 4-way loss/sampler comparison, and
-already reused as-is for the organoid binary run — with the output
-layer/loss unchanged (binary, 2 classes, same as organoid).
+minority class, stacked with WeightedRandomSampler).
 
 Usage: python train_models.py [all|rf|xgb|mlp] [--config fscv_config_ipsc.yaml]
 Run extract_features.py first.
@@ -24,7 +21,7 @@ from utils_ipsc_binary import load_features, load_raw_for_features, compute_metr
 
 import yaml
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
 
 with open("fscv_config_ipsc.yaml") as f:
     _cfg = yaml.safe_load(f)
@@ -34,7 +31,7 @@ MLP_INPUT     = N_VOLTAGE_PTS * WINDOW_FRAMES
 
 N_SPLITS = 5
 
-os.makedirs(rf"{BASE}\models_ipsc_binary_17", exist_ok=True)
+os.makedirs(rf"{BASE}\models_ipsc_binary", exist_ok=True)
 
 
 def main(selected=None):
@@ -82,7 +79,7 @@ def train_rf(X, y, groups):
                                    class_weight='balanced', n_jobs=-1,
                                    random_state=RANDOM_STATE)
     final.fit(X, y)
-    pickle.dump({'model': final}, open(rf"{BASE}\models_ipsc_binary_17\rf_model.pkl", 'wb'))
+    pickle.dump({'model': final}, open(rf"{BASE}\models_ipsc_binary\rf_model.pkl", 'wb'))
     return metrics
 
 
@@ -113,7 +110,7 @@ def train_xgb(X, y, groups):
                                objective='binary:logistic',
                                random_state=RANDOM_STATE, verbosity=0)
     final.fit(X, y, sample_weight=sample_weight)
-    pickle.dump({'model': final}, open(rf"{BASE}\models_ipsc_binary_17\xgb_model.pkl", 'wb'))
+    pickle.dump({'model': final}, open(rf"{BASE}\models_ipsc_binary\xgb_model.pkl", 'wb'))
     return metrics
 
 
@@ -194,8 +191,8 @@ def train_mlp(X, y, groups):
         y_proba_all.extend(best_proba)
         print(f"  Fold {fold+1}/{N_SPLITS} best F1_macro={best_f1:.4f}")
 
-    np.save(rf"{BASE}\models_ipsc_binary_17\mlp_oof_ytrue.npy", np.array(y_true_all))
-    np.save(rf"{BASE}\models_ipsc_binary_17\mlp_oof_yproba.npy", np.array(y_proba_all))
+    np.save(rf"{BASE}\models_ipsc_binary\mlp_oof_ytrue.npy", np.array(y_true_all))
+    np.save(rf"{BASE}\models_ipsc_binary\mlp_oof_yproba.npy", np.array(y_proba_all))
 
     metrics = compute_metrics(np.array(y_true_all), np.array(y_proba_all))
     print_metrics(metrics, "MLP")
@@ -222,7 +219,7 @@ def train_mlp(X, y, groups):
 
     pickle.dump({'model_state': final.state_dict(),
                  'mean': X_all_mean, 'std': X_all_std},
-                 open(rf"{BASE}\models_ipsc_binary_17\mlp_model.pkl", 'wb'))
+                 open(rf"{BASE}\models_ipsc_binary\mlp_model.pkl", 'wb'))
     return metrics
 
 
