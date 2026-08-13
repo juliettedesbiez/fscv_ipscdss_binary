@@ -1,13 +1,9 @@
 """
 Soft-voting ensemble for iPSC BINARY classifier, organoid-pipeline test.
-Averages class probabilities from RF, XGB (17-feature) and MLP then computes metrics.
+Averages class probabilities from RF, XGB and MLP then computes metrics.
 
 Classes: 0=baseline, 1=serotonin
 
-Unlike the organoid run, RF, XGB, and MLP were all trained together in this
-single 17-feature pass (see train_models.py / test_models.py), so all three
-probability files come from the same results_ipsc_binary_17/ folder — there's
-no separate legacy 12-feature MLP run to pull from here.
 """
 
 import os, json, numpy as np, pandas as pd
@@ -16,7 +12,7 @@ from sklearn.metrics import (f1_score, confusion_matrix,
 
 CLASS_NAMES = ['Baseline', 'Serotonin']
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
 
 def compute_binary_metrics(y_true, y_proba):
     """Compute metrics for binary soft-voting output."""
@@ -66,9 +62,9 @@ def main():
 
     # RF, XGB, and MLP all come from the same 17-feature run
     proba_paths = {
-        'rf':  rf"{BASE}\results_ipsc_binary_17\rf_proba.npy",
-        'xgb': rf"{BASE}\results_ipsc_binary_17\xgb_proba.npy",
-        'mlp': rf"{BASE}\results_ipsc_binary_17\mlp_proba.npy",
+        'rf':  rf"{BASE}\results_ipsc_binary\rf_proba.npy",
+        'xgb': rf"{BASE}\results_ipsc_binary\xgb_proba.npy",
+        'mlp': rf"{BASE}\results_ipsc_binary\mlp_proba.npy",
     }
 
     missing = []
@@ -92,10 +88,10 @@ def main():
     print_metrics(metrics, "SOFT-VOTING")
 
     # Save to results_ipsc_binary_17
-    os.makedirs(rf"{BASE}\results_ipsc_binary_17", exist_ok=True)
-    np.save(rf"{BASE}\results_ipsc_binary_17\ensemble_proba.npy", ensemble_proba)
-    json.dump(metrics, open(rf"{BASE}\results_ipsc_binary_17\ensemble_test.json", 'w'), default=float)
-    print(f"\n✓ Saved results_ipsc_binary_17/ensemble_test.json and results_ipsc_binary_17/ensemble_proba.npy")
+    os.makedirs(rf"{BASE}\results_ipsc_binary", exist_ok=True)
+    np.save(rf"{BASE}\results_ipsc_binary\ensemble_proba.npy", ensemble_proba)
+    json.dump(metrics, open(rf"{BASE}\results_ipsc_binary\ensemble_test.json", 'w'), default=float)
+    print(f"\n✓ Saved results_ipsc_binary/ensemble_test.json and results_ipsc_binary/ensemble_proba.npy")
 
 if __name__ == "__main__":
     main()
