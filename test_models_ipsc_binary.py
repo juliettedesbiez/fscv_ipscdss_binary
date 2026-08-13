@@ -16,7 +16,7 @@ from extract_features_ipsc_binary import extract, load_config
 
 import yaml
 
-BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output retrain"
+BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
 
 with open("fscv_config_ipsc.yaml") as f:
     _cfg = yaml.safe_load(f)
@@ -24,32 +24,32 @@ WINDOW_FRAMES = int(2.0 * _cfg['fscv_hz'])
 N_VOLTAGE_PTS = 1100
 MLP_INPUT     = N_VOLTAGE_PTS * WINDOW_FRAMES
 
-os.makedirs(rf"{BASE}\results_ipsc_binary_17", exist_ok=True)
+os.makedirs(rf"{BASE}\results_ipsc_binary", exist_ok=True)
 
 def test_rf(X, y):
-    path = rf"{BASE}\models_ipsc_binary_17\rf_model.pkl"
+    path = rf"{BASE}\models_ipsc_binary\rf_model.pkl"
     if not os.path.exists(path): print("RF model not found"); return None
     data  = pickle.load(open(path, 'rb'))
     proba = data['model'].predict_proba(X)         # (n, 2)
     metrics = compute_metrics(y, proba)
     print_metrics(metrics, 'RF')
-    json.dump(metrics, open(rf"{BASE}\results_ipsc_binary_17\rf_test.json", 'w'), default=float)
-    np.save(rf"{BASE}\results_ipsc_binary_17\rf_proba.npy", proba)
+    json.dump(metrics, open(rf"{BASE}\results_ipsc_binary\rf_test.json", 'w'), default=float)
+    np.save(rf"{BASE}\results_ipsc_binary\rf_proba.npy", proba)
     return metrics
 
 def test_xgb(X, y):
-    path = rf"{BASE}\models_ipsc_binary_17\xgb_model.pkl"
+    path = rf"{BASE}\models_ipsc_binary\xgb_model.pkl"
     if not os.path.exists(path): print("XGB model not found"); return None
     data  = pickle.load(open(path, 'rb'))
     proba = data['model'].predict_proba(X)         # (n, 2)
     metrics = compute_metrics(y, proba)
     print_metrics(metrics, 'XGB')
-    json.dump(metrics, open(rf"{BASE}\results_ipsc_binary_17\xgb_test.json", 'w'), default=float)
-    np.save(rf"{BASE}\results_ipsc_binary_17\xgb_proba.npy", proba)
+    json.dump(metrics, open(rf"{BASE}\results_ipsc_binary\xgb_test.json", 'w'), default=float)
+    np.save(rf"{BASE}\results_ipsc_binary\xgb_proba.npy", proba)
     return metrics
 
 def test_mlp(X, y):
-    path = rf"{BASE}\models_ipsc_binary_17\mlp_model.pkl"
+    path = rf"{BASE}\models_ipsc_binary\mlp_model.pkl"
     if not os.path.exists(path): print("MLP model not found"); return None
 
     class MLP(nn.Module):
@@ -72,8 +72,8 @@ def test_mlp(X, y):
 
     metrics = compute_metrics(y, proba)
     print_metrics(metrics, 'MLP')
-    json.dump(metrics, open(rf"{BASE}\results_ipsc_binary_17\mlp_test.json", 'w'), default=float)
-    np.save(rf"{BASE}\results_ipsc_binary_17\mlp_proba.npy", proba)
+    json.dump(metrics, open(rf"{BASE}\results_ipsc_binary\mlp_test.json", 'w'), default=float)
+    np.save(rf"{BASE}\results_ipsc_binary\mlp_proba.npy", proba)
     return metrics
 
 def main(selected=None):
