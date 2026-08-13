@@ -32,7 +32,35 @@ imported by steps 3–6 (metrics, data loading, `RANDOM_STATE`).
 
 ---
 
-## 2. What needs changing before you run anything
+## 2. Sign convention
+
+The raw `.txt`/`.npy` recording files use a sign convention that renders
+backwards on Pablo's colormap if left uncorrected. The visual symptom:
+oxidation renders **blue** and reduction renders **green** — backwards from
+the correct convention (oxidation **green**, reduction **blue**).
+
+`make_windows_ipsc_binary.py`'s `load_arr()` corrects for this before any
+windowing happens:
+```python
+def load_arr(path):
+    arr = np.load(path) if path.endswith('.npy') else np.loadtxt(path)
+    arr = arr[np.newaxis, :] if arr.ndim == 1 else arr
+    return -arr
+```
+Every window written to `window_arrays/` is already sign-corrected — nothing
+downstream (`extract_features_ipsc_binary.py`, training, testing) needs to
+do anything about sign, since it only ever reads from `window_arrays/`.
+
+If you're setting up a fresh copy of `make_windows_ipsc_binary.py`, confirm
+this `-arr` is present before running step 1 — if it's missing, every
+window generated will be sign-flipped, silently, with no error. The
+labelling app (`Labelling_App.py`) has the same fix in its own `load_arr()`;
+both need to agree on the same convention since one produces the labels the
+other consumes.
+
+---
+
+## 3. What needs changing before you run anything
 
 Nothing here takes an input/output folder as a command-line argument — paths
 are hardcoded at the top of each file.
@@ -64,7 +92,7 @@ balance_ratio: 2              # baseline:serotonin ratio when balancing classes
 
 ---
 
-## 3. How to run
+## 4. How to run
 
 From the folder containing all the scripts and `fscv_config_ipsc.yaml`:
 
@@ -84,7 +112,7 @@ interactive prompt asking which model(s) to run.
 
 ---
 
-## 4. Outputs you'll end up with (inside `BASE`)
+## 5. Outputs you'll end up with (inside `BASE`)
 
 ```
 binary output/
@@ -109,7 +137,7 @@ binary output/
 
 ---
 
-## 5. Quick sanity checks
+## 6. Quick sanity checks
 
 - Step 1 print-out should show a plausible split of baseline vs. serotonin
   files and a non-zero window count for both classes.
@@ -119,4 +147,4 @@ binary output/
   iterate here.
 - Steps 4–6 should only be run once real CV results look acceptable.
 - Step 5 requires all three `*_proba.npy` files to exist in
-  `results_ipsc_binary_17/` first.
+  `results_ipsc_binary/` first.
