@@ -5,7 +5,7 @@ Analysis and figure generation for iPSC BINARY classifier, organoid-pipeline tes
 RF, XGB, and MLP all come from the single 17-feature run (models_ipsc_binary/,
 features_ipsc_binary.csv, windows_metadata_test_ipsc_binary.csv). 
 
-Generates (all under {BASE}\\figures_ipsc_binary_17):
+Generates (all under {BASE}\\figures_ipsc_binary):
   roc_curves_test.jpg
   pr_curves_test.jpg
   confusion_matrices_test.jpg
