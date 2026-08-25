@@ -35,6 +35,10 @@ from extract_features_ipsc_binary import extract, load_config
 
 warnings.filterwarnings('ignore')
 
+# ── FONT CONFIGURATION ────────────────────────────────────────────────────────
+plt.rcParams['font.family'] = 'Times New Roman'
+plt.rcParams['font.size'] = 10
+
 BASE = r"C:\Users\julie\OneDrive - Imperial College London\binary output"
 
 os.makedirs(rf"{BASE}\figures_ipsc_binary", exist_ok=True)
@@ -200,14 +204,6 @@ im = ax.imshow(saliency_2d, aspect='auto', cmap='hot', origin='lower')
 plt.colorbar(im, ax=ax, label='Mean |Gradient|')
 ax.set_xlabel(f'Time Frames (×{1/cfg["fscv_hz"]:.1f}s each)', fontsize=12)
 ax.set_ylabel('Voltage Points', fontsize=10)
-
-for row, label, color in [
-    (cfg['v_oxidation_start'], f'Oxidation band start ({cfg["v_oxidation_start"]})', 'cyan'),
-    (cfg['v_reduction_start'], f'Reduction band start ({cfg["v_reduction_start"]})', 'lime'),
-]:
-    ax.axhline(row, color=color, lw=1.5, linestyle='--', alpha=0.8)
-    ax.text(WINDOW_FRAMES * 0.01, row + 8, label, color=color, fontsize=9)
-
 ax.set_title('MLP Gradient Saliency Map — Input Importance', fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.savefig(rf"{BASE}\figures_ipsc_binary\mlp_saliency.jpg", dpi=200, bbox_inches='tight')
