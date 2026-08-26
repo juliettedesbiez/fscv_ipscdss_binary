@@ -216,8 +216,6 @@ print("  ✓ mlp_saliency.jpg")
 
 # Quantitative convergence check — enrichment relative to a uniform-attention baseline,
 # not just raw percentage share (since the two bands don't span equal, or 50%, of the axis)
-V_OX_START, V_OX_END   = cfg['v_oxidation_start'], cfg['v_oxidation_end']
-V_RED_START, V_RED_END = cfg['v_reduction_start'], cfg['v_reduction_end']
 
 total_saliency = saliency_by_voltage.sum()
 ox_frac  = saliency_by_voltage[V_OX_START:V_OX_END].sum() / total_saliency
